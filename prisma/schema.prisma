@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Local dev uses SQLite for zero-setup running.
+// Swap provider to "postgresql" and point DATABASE_URL at Supabase/Postgres for production.
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// SQLite (used for local dev below) has no native enum support in Prisma,
+// so `Agent.category` is a plain String, not a real enum. The four valid
+// values are: REBALANCING, GRID_TRADING, YIELD_OPTIMIZATION,
+// HEALTH_FACTOR_MONITORING (see lib/categories.ts for the canonical list
+// used at the TypeScript level). If you migrate to Postgres, you can
+// reintroduce a real `enum Category { ... }` block here and change the
+// Agent model's `category` field back to that type.
+
+model Agent {
+  id                String   @id @default(cuid())
+  chainId           Int
+  tokenId           String
+  address           String   @unique // owner wallet address, from 8004scan owner_address
+  name              String
+  category          String // one of: REBALANCING, GRID_TRADING, YIELD_OPTIMIZATION, HEALTH_FACTOR_MONITORING (see Category enum above for reference)
+  description       String
+  registeredAt      DateTime
+  // cached snapshot fields, refreshed by the classification + live-data workers
+  reputationScore   Float    @default(0) // mirrors 8004scan total_score
+  activityCount     Int      @default(0)
+  liveMetricLabel   String
+  liveMetricValue   String
+
+  sessions          Session[]
+  reports           CommunityReport[]
+  scoreHistory      TrustScoreSnapshot[]
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@unique([chainId, tokenId])
+}
+
+model Session {
+  id            String   @id @default(cuid())
+  agentId       String
+  agent         Agent    @relation(fields: [agentId], references: [id])
+  spendCap      Float
+  spent         Float
+  expiresAt     DateTime
+  revoked       Boolean  @default(false)
+  exceededCap   Boolean  @default(false)
+  actedAfterExp Boolean  @default(false)
+  createdAt     DateTime @default(now())
+}
+
+model CommunityReport {
+  id          String   @id @default(cuid())
+  agentId     String
+  agent       Agent    @relation(fields: [agentId], references: [id])
+  summary     String
+  evidenceUrl String?
+  verified    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model TrustScoreSnapshot {
+  id                      String   @id @default(cuid())
+  agentId                 String
+  agent                   Agent    @relation(fields: [agentId], references: [id])
+  score                   Float
+  identityReputationScore Float
+  sessionComplianceScore  Float
+  communityReportScore    Float
+  computedAt              DateTime @default(now())
+}

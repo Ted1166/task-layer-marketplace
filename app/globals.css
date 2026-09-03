@@ -1,26 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap");
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  --color-ink: #12151a;
+  --color-panel: #1a1e24;
+  --color-panel2: #20242b;
+  --color-border: #2c3138;
+  --color-primary: #e8e6e1;
+  --color-muted: #8d9199;
+  --color-rebalancing: #6e8fd9;
+  --color-grid: #d9a85e;
+  --color-yield: #6ebe8f;
+  --color-health: #c9707a;
+  --color-verified: #4fbfa8;
+  --color-caution: #d9a85e;
+  --color-risk: #d9666a;
+  --font-sans: "Inter", ui-sans-serif, system-ui;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #12151a;
+  color: #e8e6e1;
+  font-family: "Inter", ui-sans-serif, system-ui;
+}
+
+.font-data {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
 }
