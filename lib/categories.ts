@@ -13,3 +13,4 @@ export const CATEGORY_COLOR: Record<string, string> = {
 };
 
 export const CATEGORIES = Object.keys(CATEGORY_LABEL);
+export type Category = keyof typeof CATEGORY_LABEL;

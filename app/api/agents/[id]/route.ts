@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const agent = await prisma.agent.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       scoreHistory: { orderBy: { computedAt: "desc" }, take: 12 },
-      sessions: { orderBy: { createdAt: "desc" } },
+      sessions: { orderBy: { createdAt: "desc" }, include: { activities: { orderBy: { createdAt: "desc" } } } },
       reports: { orderBy: { createdAt: "desc" } },
     },
   });

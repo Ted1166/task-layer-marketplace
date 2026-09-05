@@ -52,7 +52,18 @@ model Session {
   revoked       Boolean  @default(false)
   exceededCap   Boolean  @default(false)
   actedAfterExp Boolean  @default(false)
+  activities    Activity[]
   createdAt     DateTime @default(now())
+}
+
+model Activity {
+  id        String   @id @default(cuid())
+  sessionId String
+  session   Session  @relation(fields: [sessionId], references: [id])
+  txHash    String
+  chain     String // e.g. "BSC Testnet"
+  amountUsd Float // nominal cost charged against the session's spend cap
+  createdAt DateTime @default(now())
 }
 
 model CommunityReport {

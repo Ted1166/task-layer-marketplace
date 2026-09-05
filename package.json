@@ -8,26 +8,29 @@
     "start": "next start",
     "lint": "eslint",
     "seed": "tsx prisma/seed.ts",
-    "test-agent": "tsx scripts/test-real-agent.ts"
+    "test-agent": "tsx scripts/test-real-agent.ts",
+    "refresh-live-data": "tsx scripts/refresh-live-data.ts",
+    "test-health-factor": "tsx scripts/test-health-factor.ts"
   },
   "dependencies": {
-    "@prisma/client": "5.22.0",
+    "@prisma/client": "^5.22.0",
     "next": "16.3.4",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "viem": "^2.21.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^16.4.5",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
     "postcss": "8.5.26",
     "prisma": "5.22.0",
     "tailwindcss": "^4.0.0",
     "tsx": "4.23.13",
-    "typescript": "^5",
-    "dotenv": "^16.4.5"
+    "typescript": "^5"
   }
 }
