@@ -149,6 +149,7 @@ async function main() {
   console.log("Seeding database...");
   await prisma.trustScoreSnapshot.deleteMany();
   await prisma.communityReport.deleteMany();
+  await prisma.activity.deleteMany();
   await prisma.session.deleteMany();
   await prisma.agent.deleteMany();
 
