@@ -10,7 +10,8 @@
     "seed": "tsx prisma/seed.ts",
     "test-agent": "tsx scripts/test-real-agent.ts",
     "refresh-live-data": "tsx scripts/refresh-live-data.ts",
-    "test-health-factor": "tsx scripts/test-health-factor.ts"
+    "test-health-factor": "tsx scripts/test-health-factor.ts",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
